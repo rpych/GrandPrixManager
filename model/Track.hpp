@@ -1,14 +1,24 @@
 #pragma once
 #include <string>
 
-class ITrack
-{};
-
-class Track: public ITrack
+namespace gp::model
 {
-  std::string name;
+class ATrack
+{
+  const std::string name;
   int laps;
-  int difficultyCoef;
+  float difficultyCoef;
 public:
-
+  ATrack(const std::string& name, int laps, float difficultyCoef) : name(name), laps(laps), difficultyCoef(difficultyCoef) {}
+  int getLaps()
+  {
+    return laps;
+  }  
 };
+
+class Track: public ATrack
+{
+public:
+  Track(const std::string& name, int laps, float difficultyCoef): ATrack(name, laps, difficultyCoef) {}
+};
+} //gp::model

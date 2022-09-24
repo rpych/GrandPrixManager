@@ -1,12 +1,18 @@
 #pragma once
+#include <algorithm>
 #include "../ISimulator.hpp"
-#include "Track.hpp"
+#include "../../model/Track.hpp"
+#include "../GrandPrixSession.hpp"
 
-
-class RaceSimulator: public ISimulator
+namespace gp::simulator
 {
-  ITrack* track;
-public:
-  RaceSimulator() {}
-  void simulate();
-};
+  class RaceSimulator: public GrandPrixSession, public ISimulator
+  {
+  public:
+    RaceSimulator() {}
+    virtual void simulate();
+    void updateDriversResults();
+    void updateCurrentConditions(int lap);
+    virtual void conductSession() override;
+  };
+} //gp::simulator

@@ -1,6 +1,8 @@
 #include <random>
 #include "Conditions.hpp"
 #include "../utils/TrackConditions.hpp"
+#include "../utils/TireType.hpp"
+#include "../model/Tires.hpp"
 
 namespace gp::model
 {
@@ -8,26 +10,42 @@ namespace gp::model
 AConditions::AConditions()
 {}
 
-std::map<TrackConditions, int> AConditions::initDifficultyMap()
+std::map<TiresInConditions, double> AConditions::initCondTirePaceFactors()
 {
-  std::map<TrackConditions, int> mapping;
-  mapping[TrackConditions::DRY]        = 0.0;
-  mapping[TrackConditions::MEDIUM_WET] = 0.2;
-  mapping[TrackConditions::WET]        = 0.4;
+  std::map<TiresInConditions, double> mapping;
+  mapping[std::make_pair<>(TrackConditions::DRY, TireType::SOFT)]                = 0.3;
+  mapping[std::make_pair<>(TrackConditions::DRY, TireType::MEDIUM)]              = 0.25;
+  mapping[std::make_pair<>(TrackConditions::DRY, TireType::HARD)]                = 0.2;
+  mapping[std::make_pair<>(TrackConditions::DRY, TireType::INTERMEDIATE)]        = -0.1;
+  mapping[std::make_pair<>(TrackConditions::DRY, TireType::WET)]                 = -0.2;
+  mapping[std::make_pair<>(TrackConditions::MEDIUM_WET, TireType::SOFT)]         = -0.1;
+  mapping[std::make_pair<>(TrackConditions::MEDIUM_WET, TireType::MEDIUM)]       = -0.1;
+  mapping[std::make_pair<>(TrackConditions::MEDIUM_WET, TireType::HARD)]         = 0.0;
+  mapping[std::make_pair<>(TrackConditions::MEDIUM_WET, TireType::INTERMEDIATE)] = 0.3;
+  mapping[std::make_pair<>(TrackConditions::MEDIUM_WET, TireType::WET)]          = 0.15;
+  mapping[std::make_pair<>(TrackConditions::WET, TireType::SOFT)]                = -0.3;
+  mapping[std::make_pair<>(TrackConditions::WET, TireType::MEDIUM)]              = -0.3;
+  mapping[std::make_pair<>(TrackConditions::WET, TireType::HARD)]                = -0.2;
+  mapping[std::make_pair<>(TrackConditions::WET, TireType::INTERMEDIATE)]        = 0.15;
+  mapping[std::make_pair<>(TrackConditions::WET, TireType::WET)]                 = 0.3;
   return mapping;
 }
 
-std::map<TrackConditions, int> AConditions::difficultyScore{initDifficultyMap()};
+std::map<TiresInConditions, double> AConditions::condTirePaceFactors{initCondTirePaceFactors()};
 
 
 //-----------------------
 
-Conditions::Conditions(): AConditions(), currentConditions(TrackConditions::DRY)
+Conditions::Conditions(): AConditions(), currentConditions(), conditionsNo(0)
 {}
 
-int Conditions::getCurrentConditionsScore()
+Conditions::Conditions(std::vector<utils::TrackConditions> conditions): AConditions(), currentConditions(conditions), conditionsNo(0)
+{}
+
+double Conditions::getCurrentCondTirePaceFactor(std::shared_ptr<model::ATires> tires)
 {
-  return difficultyScore[currentConditions];
+  TireType tireType = tires->getTiresType();
+  return condTirePaceFactors[std::make_pair<>(currentConditions.at(conditionsNo), tireType)];
 }
 
 void Conditions::setCurrentConditons()
@@ -37,21 +55,12 @@ void Conditions::setCurrentConditons()
 
 void Conditions::changeConditions()
 {
-  std::random_device dev;
-  std::mt19937 rng(dev());
-  std::uniform_int_distribution<std::mt19937::result_type> dist(0,2);
-  switch(currentConditions)
-  {
-    case TrackConditions::DRY:
-      currentConditions = (dist(rng) == 0) ? TrackConditions::MEDIUM_WET : TrackConditions::DRY;
-      break;
-    case TrackConditions::WET:
-      currentConditions = (dist(rng) == 0) ? TrackConditions::MEDIUM_WET : TrackConditions::WET;
-    case TrackConditions::MEDIUM_WET:
-      int option = dist(rng);
-      currentConditions = (option == 0) ? TrackConditions::MEDIUM_WET : (option == 1 ? TrackConditions::WET : TrackConditions::DRY);
-      break;
-  }
+   conditionsNo++;
+}
+
+utils::TrackConditions Conditions::getCurrentTrackConditions()
+{
+  return currentConditions.at(conditionsNo);
 }
 
 } //gp::model

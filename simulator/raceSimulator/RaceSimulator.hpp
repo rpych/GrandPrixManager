@@ -9,9 +9,10 @@ namespace gp::simulator
   class RaceSimulator: public GrandPrixSession, public ISimulator
   {
   public:
-    RaceSimulator() {}
+    RaceSimulator(): GrandPrixSession(), ISimulator() {}
+    virtual ~RaceSimulator() {}
     virtual void simulate();
-    void updateDriversResults();
+    void updateDriversResults(int lap);
     void updateCurrentConditions(int lap);
     virtual void conductSession() override;
   };

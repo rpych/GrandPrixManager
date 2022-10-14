@@ -16,7 +16,8 @@ class GrandPrix
   void setCurrentSession();
   std::shared_ptr<GrandPrixSession> session;
 public:
-  GrandPrix(){}
+  GrandPrix() {}
+  virtual ~GrandPrix() {}
   void prepare();
 };
 } //gp::simulator

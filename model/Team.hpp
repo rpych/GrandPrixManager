@@ -1,26 +1,29 @@
 #pragma once
 #include <string>
 #include <memory>
-#include "Car.hpp"
+//#include "Car.hpp"
 
 namespace gp::model
 {
+class ATires;
+
 class ATeam
 {
 public:
-  ATeam(const std::string& name, double experience, std::shared_ptr<ACar> car);
+  ATeam(const std::string& name, double experience);
+  virtual ~ATeam() {}
   const std::string getName() { return name; }
   double getExperience() { return experience; }
-  std::shared_ptr<ACar> getCar() { return car; }
 protected:
   const std::string name;
   double experience;
-  std::shared_ptr<ACar> car;
 };
 
 class Team: public ATeam
 {
 public:
-  Team(const std::string& name, double experience, std::shared_ptr<ACar> car);
+  Team(const std::string& name, double experience);
+  Team(const Team& team);
+  virtual ~Team() {}
 };
 } //gp::model

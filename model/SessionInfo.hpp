@@ -13,6 +13,7 @@ namespace gp::model
     //std::shared_ptr<ADriver> driver;
     ASessionInfo(int startPosition/*, std::shared_ptr<ADriver> driver*/);
   public:
+    virtual ~ASessionInfo() {}
     int getStartPosition() { return startPosition; }
     double getScore() { return score; }
     //std::shared_ptr<ADriver> getDriver() { return driver; }
@@ -23,6 +24,7 @@ namespace gp::model
   {
   public:
     SessionInfo(int startPosition/*, std::shared_ptr<ADriver> driver*/);
+    virtual ~SessionInfo() {}
     virtual void updateScore(double lapScore);
   };
 } //gp::model

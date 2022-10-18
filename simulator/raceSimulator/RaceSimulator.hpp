@@ -10,7 +10,8 @@ namespace gp::simulator
   class RaceSimulator: public GrandPrixSession, public ISimulator
   {
   public:
-    RaceSimulator(std::unique_ptr<model::ATrack> track): GrandPrixSession(std::move(track)), ISimulator() {}
+    RaceSimulator(std::unique_ptr<model::ATrack> track, std::shared_ptr<model::AConditions> conditions):
+    GrandPrixSession(std::move(track), conditions), ISimulator() {}
     virtual ~RaceSimulator() {}
     virtual void conductSession() override;
     virtual void simulate() override;

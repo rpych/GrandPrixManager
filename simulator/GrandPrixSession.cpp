@@ -11,8 +11,8 @@
 namespace gp::simulator
 {
 
-GrandPrixSession::GrandPrixSession(std::unique_ptr<model::ATrack> track):
-                  drivers(), track(std::move(track)), conditions(), pitWall(std::make_shared<model::PitWall>())
+GrandPrixSession::GrandPrixSession(std::unique_ptr<model::ATrack> track, std::shared_ptr<model::AConditions> conditions):
+                  drivers(), track(std::move(track)), conditions(conditions), pitWall(std::make_shared<model::PitWall>())
 {}
 
 double GrandPrixSession::getMistakesFactor()
@@ -38,6 +38,14 @@ void GrandPrixSession::setConditions(std::shared_ptr<model::AConditions> _condit
 std::shared_ptr<model::AConditions> GrandPrixSession::getConditions()
 {
   return conditions;
+}
+
+void GrandPrixSession::prepareDriversForSession()
+{
+  std::for_each(drivers.begin(), drivers.end(), [this](auto& driver)
+  {
+    pitWall->chooseInitialTires(driver, conditions);
+  });
 }
 
 std::vector<std::shared_ptr<model::ADriver>>& GrandPrixSession::getSessionResults()

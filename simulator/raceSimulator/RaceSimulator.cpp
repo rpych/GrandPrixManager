@@ -19,7 +19,7 @@ void RaceSimulator::conductSession()
 
 void RaceSimulator::simulate()
 {
-  setConditions(std::make_shared<model::Conditions>(data::ConditionsData::getConditions()));
+  prepareDriversForSession();
 
   for(int i=0; i < track->getLaps(); ++i)
   {

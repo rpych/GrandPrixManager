@@ -20,7 +20,7 @@ void QualiSimulator::conductSession()
 
 void QualiSimulator::simulate()
 {
-  setConditions(std::make_shared<model::Conditions>(data::ConditionsData::getConditions()));
+  prepareDriversForSession();
 
   for(int i=0; i < utils::NUM_OF_QUALI_LAPS; ++i)
   {

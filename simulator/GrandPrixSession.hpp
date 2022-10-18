@@ -20,7 +20,7 @@ protected:
   std::shared_ptr<model::AConditions> conditions;
   std::shared_ptr<model::APitWall> pitWall;
 public:
-  GrandPrixSession(std::unique_ptr<model::ATrack> track);
+  GrandPrixSession(std::unique_ptr<model::ATrack> track, std::shared_ptr<model::AConditions> conditions);
   virtual ~GrandPrixSession() {}
   static double getMistakesFactor();
   void setTrack(std::unique_ptr<model::ATrack> track);
@@ -28,6 +28,7 @@ public:
   void setConditions(std::shared_ptr<model::AConditions> conditions);
   std::shared_ptr<model::AConditions> getConditions();
   std::vector<std::shared_ptr<model::ADriver>>& getSessionResults();
+  void prepareDriversForSession();
   virtual void conductSession() = 0;
 };
 } //gp::simulator

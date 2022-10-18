@@ -45,4 +45,11 @@ TireType PitWall::chooseNewTires(std::shared_ptr<AConditions> conditions)
   return newTiresType;
 }
 
+void PitWall::chooseInitialTires(std::shared_ptr<ADriver> driver, std::shared_ptr<AConditions> conditions)
+{
+  TireType newTiresType = chooseNewTires(conditions);
+  std::shared_ptr<Tires> newTires = std::make_shared<Tires>(0, newTiresType);
+  driver->getCar()->setTires(newTires);
+}
+
 } 

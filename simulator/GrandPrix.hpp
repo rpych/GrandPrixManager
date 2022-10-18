@@ -6,6 +6,7 @@ namespace gp::model
 {
   class ADriver;
   class ATrack;
+  class AConditions;
 }
 
 namespace gp::simulator
@@ -19,7 +20,7 @@ class GrandPrix
   void prepareTrack();
   void prepareDriversToQuali();
   void prepareDriversToRace(std::vector<std::shared_ptr<model::ADriver>> drivers);
-  template<typename T> void setCurrentSession(std::unique_ptr<model::ATrack> track);
+  template<typename T> void setCurrentSession(std::unique_ptr<model::ATrack> track, std::shared_ptr<model::AConditions> conditions);
   std::shared_ptr<GrandPrixSession> session;
 public:
   GrandPrix() {}

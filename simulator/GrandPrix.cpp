@@ -55,15 +55,16 @@ void GrandPrix::prepareDriversToRace(std::vector<std::shared_ptr<model::ADriver>
 }
 
 template<typename T>
-void GrandPrix::setCurrentSession(std::unique_ptr<model::ATrack> track)
+void GrandPrix::setCurrentSession(std::unique_ptr<model::ATrack> track, std::shared_ptr<model::AConditions> conditions)
 {
-  session = std::make_shared<T>(std::move(track));
+  session = std::make_shared<T>(std::move(track), conditions);
   std::cout<<"setCurrentSession "<<typeid(T).name()<<std::endl;
 }
 
 void GrandPrix::prepareQualiSession()
 {
-  setCurrentSession<simulator::QualiSimulator>(std::make_unique<model::Track>("MonzaIt", 70, 0.6));
+  setCurrentSession<simulator::QualiSimulator>(std::make_unique<model::Track>("MonzaIt", 70, 0.6),
+  std::make_shared<model::Conditions>(data::ConditionsData::getConditions()));
   prepareTrack();
   prepareDriversToQuali();
 }
@@ -72,7 +73,8 @@ void GrandPrix::prepareRaceSession()
 {
   std::vector<std::shared_ptr<model::ADriver>> drivers = session->getSessionResults();
 
-  setCurrentSession<simulator::RaceSimulator>(std::make_unique<model::Track>("MonzaIt", 70, 0.6));
+  setCurrentSession<simulator::RaceSimulator>(std::make_unique<model::Track>("MonzaIt", 70, 0.6),
+  std::make_shared<model::Conditions>(data::ConditionsData::getConditions()));
   prepareTrack();
   prepareDriversToRace(drivers);
 }

@@ -10,21 +10,21 @@ namespace gp::model
   protected:
     int startPosition;
     double score;
-    //std::shared_ptr<ADriver> driver;
-    ASessionInfo(int startPosition/*, std::shared_ptr<ADriver> driver*/);
+    ASessionInfo(int startPosition);
   public:
     virtual ~ASessionInfo() {}
     int getStartPosition() { return startPosition; }
     double getScore() { return score; }
-    //std::shared_ptr<ADriver> getDriver() { return driver; }
     virtual void updateScore(double lapScore) = 0;
+    virtual void setStartingPosition(int position) = 0;
   };
 
   class SessionInfo: public ASessionInfo
   {
   public:
-    SessionInfo(int startPosition/*, std::shared_ptr<ADriver> driver*/);
+    SessionInfo(int startPosition);
     virtual ~SessionInfo() {}
-    virtual void updateScore(double lapScore);
+    virtual void updateScore(double lapScore) override;
+    virtual void setStartingPosition(int position) override;
   };
 } //gp::model

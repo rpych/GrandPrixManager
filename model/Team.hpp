@@ -24,6 +24,7 @@ class Team: public ATeam
 public:
   Team(const std::string& name, double experience);
   Team(const Team& team);
+  Team(std::shared_ptr<ATeam> team);
   virtual ~Team() {}
 };
 } //gp::model

@@ -16,7 +16,7 @@ Car::Car(const std::string& engineProducer, std::shared_ptr<ATeam> team, std::sh
 Car::Car(const Car& car) : ACar(std::string{car.engineProducer}, car.team, std::make_shared<Tires>(car.tires))
 {}
 
-Car::Car(const std::shared_ptr<ACar> car) : ACar(car->getEngineProducer(), car->getTeam(), std::make_shared<Tires>(car->getTires())) {}
+Car::Car(const std::shared_ptr<ACar> car) : ACar(car->getEngineProducer(), std::make_shared<Team>(car->getTeam()), std::make_shared<Tires>(car->getTires())) {}
 
 double Car::getTiresAgeFactor()
 {

@@ -3,7 +3,10 @@
 #include "../../model/Conditions.hpp"
 #include "../../model/Tires.hpp"
 #include "../../model/PitWall.hpp"
+#include "../../data/ConditionsData.hpp"
 #include "../../utils/Constants.hpp"
+
+#include <memory>
 #include <iostream>
 
 namespace gp::simulator
@@ -16,11 +19,13 @@ void RaceSimulator::conductSession()
 
 void RaceSimulator::simulate()
 {
+  setConditions(std::make_shared<model::Conditions>(data::ConditionsData::getConditions()));
+
   for(int i=0; i < track->getLaps(); ++i)
   {
     std::cout<<"Lap="<<i;
     updateDriversResults(i);
-    //updateCurrentConditions(i);
+    updateCurrentConditions(i);
   }
 }
 
@@ -32,7 +37,7 @@ void RaceSimulator::updateDriversResults(int lap)
      std::shared_ptr<model::ATires> carsTires = driver->getCar()->getTires();
      double score = driver->getExperience() + driver->getTeamExperience() +
                     conditions->getCurrentCondTirePaceFactor(carsTires) + carsTires->getTiresAgeFactor() + getMistakesFactor();
-     std::cout<<"score="<<score<<", tiresAge = "<<carsTires->getTiresAge()<<std::endl;
+     std::cout<<"score="<<score<<", overall score = "<<driver->getSessionScore()<<", tiresAge = "<<carsTires->getTiresAge()<<std::endl;
      driver->updateLapScore(score);
 
      if (driver->shouldRequestPitStop(conditions->getCurrentCondTirePaceFactor(carsTires)) 
@@ -47,11 +52,18 @@ void RaceSimulator::updateDriversResults(int lap)
    });
 }
 
+bool RaceSimulator::shouldConditionsBeChanged(int lap)
+{
+  return (lap == static_cast<int>(utils::COND_DURATION_COEF * track->getLaps())) ||
+         (lap == static_cast<int>(2 * utils::COND_DURATION_COEF * track->getLaps()));
+}
+
 void RaceSimulator::updateCurrentConditions(int lap)
 {
-  if (lap == (track->getLaps()*GrandPrixSession::trackChangeCoef))
+  if (shouldConditionsBeChanged(lap))
   {
     conditions->setCurrentConditons();
+    std::cout<<"ChangeConditions"<<std::endl;
   }
 }
 

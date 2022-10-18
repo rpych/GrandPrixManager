@@ -18,14 +18,16 @@ public:
   ADriver(int number, const std::string& name, double experience, std::shared_ptr<ACar> car);
   virtual ~ADriver(){}
   int getNumber() { return number; }
-  std::string getName() { return name; }
+  const std::string getName() { return name; }
   double getExperience() { return experience; }
   std::shared_ptr<ACar> getCar() { return car; }
+  double getTeamExperience();
+  double getSessionScore();
+  void setStartingPositionWithScore(int position);
   virtual void updateLapScore(double score) = 0;
   virtual bool shouldRequestPitStop(double condAndTiresPaceFactor) = 0;
   virtual void planPitStop(std::shared_ptr<APitStop> pitStop) = 0;
   virtual void checkPitThisLap(int currentLap) = 0;
-  double getTeamExperience();
 protected:
   int number;
   const std::string name;

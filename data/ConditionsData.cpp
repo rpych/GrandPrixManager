@@ -27,21 +27,21 @@ std::map<int, std::vector<utils::TrackConditions>> ConditionsData::initCondition
   conditionsSequence3.push_back(utils::TrackConditions::MEDIUM_WET);
   conditionsSequence3.push_back(utils::TrackConditions::MEDIUM_WET);
 
-  conditionsSequenceMap.emplace(3, conditionsSequence3);
+  conditionsSequenceMap.emplace(2, conditionsSequence3);
 
   std::vector<utils::TrackConditions> conditionsSequence4;
   conditionsSequence4.push_back(utils::TrackConditions::MEDIUM_WET);
   conditionsSequence4.push_back(utils::TrackConditions::MEDIUM_WET);
   conditionsSequence4.push_back(utils::TrackConditions::MEDIUM_WET);
 
-  conditionsSequenceMap.emplace(4, conditionsSequence4);
+  conditionsSequenceMap.emplace(3, conditionsSequence4);
 
   std::vector<utils::TrackConditions> conditionsSequence5;
   conditionsSequence5.push_back(utils::TrackConditions::MEDIUM_WET);
   conditionsSequence5.push_back(utils::TrackConditions::DRY);
   conditionsSequence5.push_back(utils::TrackConditions::DRY);
 
-  conditionsSequenceMap.emplace(5, conditionsSequence5);
+  conditionsSequenceMap.emplace(4, conditionsSequence5);
 
   return conditionsSequenceMap;
 }
@@ -50,7 +50,7 @@ std::map<int, std::vector<utils::TrackConditions>> ConditionsData::conditionsTyp
 
 std::vector<utils::TrackConditions>& ConditionsData::getConditions()
 {
-  return conditionsTypes[utils::Randomizer::random(0, CONDITIONS_NUM-1)];
+  return conditionsTypes[utils::Randomizer::random(0, CONDITIONS_NUM)];
 }
 
 }

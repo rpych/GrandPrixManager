@@ -16,6 +16,17 @@ double ADriver::getTeamExperience()
   return car->getTeam()->getExperience();
 }
 
+double ADriver::getSessionScore()
+{
+  return sessionInfo->getScore();
+}
+
+void ADriver::setStartingPositionWithScore(int position)
+{
+  sessionInfo->setStartingPosition(position);
+  updateLapScore(NUM_OF_DRIVERS - position);
+}
+
 //--------------------------
 
 Driver::Driver(int number, const std::string& name, double experience, std::shared_ptr<ACar> car):
@@ -52,6 +63,7 @@ void Driver::pit()
   std::shared_ptr<APitStop> pitStop = pitStops.front();
   pitStops.pop();
   car->setTires(pitStop->getTires());
+  updateLapScore(pitStop->getPitPenalty());
 }
 
 } //gp::model

@@ -6,6 +6,12 @@
 namespace gp::data
 {
 
+std::vector<std::string> DriversData::initDriversNames()
+{
+  std::vector<std::string> driversNamesTmp{"Lewis Hamilton", "George Russell", "Charles Leclerc", "Carlos Sainz"};
+  return driversNamesTmp;
+}
+
 std::map<std::string, model::Driver> DriversData::initDriversData()
 {
   std::map<std::string, model::Driver> driversTmp;
@@ -16,7 +22,14 @@ std::map<std::string, model::Driver> DriversData::initDriversData()
   return driversTmp;
 }
 
+std::vector<std::string> DriversData::driversNames{initDriversNames()};
+
 std::map<std::string, model::Driver> DriversData::drivers{initDriversData()};
+
+std::vector<std::string>& DriversData::getDriversNames()
+{
+  return driversNames;
+}
 
 std::shared_ptr<model::ADriver> DriversData::getDriver(const std::string& name)
 {

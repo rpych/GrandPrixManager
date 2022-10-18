@@ -22,6 +22,7 @@ add_executable(grand_prix_manager
                model/Track.cpp
                simulator/GrandPrixSession.cpp
                simulator/GrandPrix.cpp
+               simulator/qualiSimulator/QualiSimulator.cpp
                simulator/raceSimulator/RaceSimulator.cpp
                main.cpp)
 
@@ -31,7 +32,7 @@ target_include_directories(grand_prix_manager
                            ${PROJECT_SOURCE_DIR}/model
                            ${PROJECT_SOURCE_DIR}/utils
                            ${PROJECT_SOURCE_DIR}/simulator
-                           ${PROJECT_SOURCE_DIR}/simulator/raceSimulator
                            ${PROJECT_SOURCE_DIR}/simulator/qualiSimulator
+                           ${PROJECT_SOURCE_DIR}/simulator/raceSimulator
                            ${PROJECT_SOURCE_DIR}/simulator/practiceSimulator)
 

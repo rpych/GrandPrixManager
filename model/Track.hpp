@@ -9,6 +9,7 @@ class ATrack
   int laps;
   float difficultyCoef;
 public:
+  ATrack() = default;
   ATrack(const std::string& name, int laps, float difficultyCoef) : name(name), laps(laps), difficultyCoef(difficultyCoef) {}
   virtual ~ATrack() {}
   int getLaps() { return laps; }
@@ -17,6 +18,7 @@ public:
 class Track: public ATrack
 {
 public:
+  Track(): ATrack() {}
   Track(const std::string& name, int laps, float difficultyCoef): ATrack(name, laps, difficultyCoef) {}
   virtual ~Track() {}
 };

@@ -19,4 +19,10 @@ void SessionInfo::updateScore(double lapScore)
 {
   score += lapScore;
 }
+
+void SessionInfo::setStartingPosition(int position)
+{
+  startPosition = position;
+}
+
 } //gp::model

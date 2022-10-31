@@ -6,6 +6,7 @@
 #include "../model/Tires.hpp"
 #include "../model/Conditions.hpp"
 #include "../model/Car.hpp"
+#include "../model/PitStop.hpp"
 #include "../data/ConditionsData.hpp"
 #include "../data/DriversData.hpp"
 #include "QualiSimulator.hpp"
@@ -17,75 +18,60 @@ using namespace gp::data;
 namespace gp::simulator
 {
 
-void GrandPrix::prepareTrack()
-{
-  session->setTrack(std::make_unique<model::Track>("MonzaIt", 70, 0.6));
-  std::cout<<"prepareTrack"<<std::endl;
-}
-
-void GrandPrix::prepareDriversToQuali()
+void AGrandPrix::prepareDriversToQuali()
 {
   for(const auto& driverName: DriversData::getDriversNames())
   {
     session->addDriver(DriversData::getDriver(driverName));
   }
-  /*session->addDriver(DriversData::getDriver("Lewis Hamilton"));
-  std::cout<<"Hamilton added"<<std::endl;
-  session->addDriver(DriversData::getDriver("George Russell"));
-  session->addDriver(DriversData::getDriver("Charles Leclerc"));
-  session->addDriver(DriversData::getDriver("Carlos Sainz"));*/
-  std::cout<<"prepareDriversQuali"<<std::endl;
 }
 
-void GrandPrix::prepareDriversToRace(std::vector<std::shared_ptr<model::ADriver>> drivers)
+void AGrandPrix::prepareDriversToRace(std::vector<std::shared_ptr<model::ADriver>> drivers)
 {
   int position = 1;
-  std::cout<<"prepareDriversToRace begin capacity = "<<drivers.capacity()<<std::endl;
   for(auto driverIt=drivers.begin(); driverIt != drivers.end(); ++driverIt)
   {
-    std::cout<<"Driver = "<<(*driverIt)->getName()<<", position = "<<position<<std::endl;
     std::shared_ptr<model::ADriver> raceDriver = DriversData::getDriver((*driverIt)->getName());
     raceDriver->setStartingPositionWithScore(position);
     position++;
     
     session->addDriver(raceDriver);
   }
-
-  std::cout<<"prepareDriversRace end"<<std::endl;
 }
 
 template<typename T>
-void GrandPrix::setCurrentSession(std::unique_ptr<model::ATrack> track, std::shared_ptr<model::AConditions> conditions)
+void AGrandPrix::setCurrentSession(std::shared_ptr<model::ATrack> track, std::unique_ptr<model::AConditions> conditions)
 {
-  session = std::make_shared<T>(std::move(track), conditions);
-  std::cout<<"setCurrentSession "<<typeid(T).name()<<std::endl;
+  session = std::make_shared<T>(track, std::move(conditions));
 }
 
-void GrandPrix::prepareQualiSession()
+void AGrandPrix::prepareQualiSession(std::shared_ptr<model::ATrack> track, std::unique_ptr<model::AConditions> conditions)
 {
-  setCurrentSession<simulator::QualiSimulator>(std::make_unique<model::Track>("MonzaIt", 70, 0.6),
-  std::make_shared<model::Conditions>(data::ConditionsData::getConditions()));
-  prepareTrack();
+  setCurrentSession<simulator::QualiSimulator>(track, std::move(conditions));
   prepareDriversToQuali();
 }
 
-void GrandPrix::prepareRaceSession()
+void AGrandPrix::conductSession()
 {
-  std::vector<std::shared_ptr<model::ADriver>> drivers = session->getSessionResults();
+  session->conductSession();
+}
 
-  setCurrentSession<simulator::RaceSimulator>(std::make_unique<model::Track>("MonzaIt", 70, 0.6),
-  std::make_shared<model::Conditions>(data::ConditionsData::getConditions()));
-  prepareTrack();
+std::vector<std::shared_ptr<model::ADriver>>& AGrandPrix::getSessionResults()
+{
+  return session->getSessionResults();
+}
+
+void AGrandPrix::prepareRaceSession(std::shared_ptr<model::ATrack> track, std::unique_ptr<model::AConditions> conditions)
+{
+  //get quali results before new session starts
+  std::vector<std::shared_ptr<model::ADriver>> drivers = getSessionResults();
+  setCurrentSession<simulator::RaceSimulator>(track, std::move(conditions));
   prepareDriversToRace(drivers);
 }
 
-void GrandPrix::prepare()
+void AGrandPrix::setStrategyForDriver(const std::string& driverName, std::queue<std::shared_ptr<model::APitStop>> pitStops)
 {
-  prepareQualiSession();
-  session->conductSession();
-
-  prepareRaceSession();
-  session->conductSession();
+  session->addStrategyForCareerDriver(driverName, pitStops);
 }
 
 }

@@ -5,21 +5,23 @@ namespace gp::model
 {
 class ATrack
 {
+protected:
   const std::string name;
   int laps;
-  float difficultyCoef;
 public:
   ATrack() = default;
-  ATrack(const std::string& name, int laps, float difficultyCoef) : name(name), laps(laps), difficultyCoef(difficultyCoef) {}
+  ATrack(const std::string& name, int laps) : name(name), laps(laps) {}
   virtual ~ATrack() {}
   int getLaps() { return laps; }
+  const std::string getName() { return name; }
 };
 
 class Track: public ATrack
 {
 public:
   Track(): ATrack() {}
-  Track(const std::string& name, int laps, float difficultyCoef): ATrack(name, laps, difficultyCoef) {}
+  Track(const std::string& name, int laps): ATrack(name, laps) {}
+  Track(const Track& track);
   virtual ~Track() {}
 };
 } //gp::model

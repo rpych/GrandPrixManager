@@ -23,7 +23,6 @@ void RaceSimulator::simulate()
 
   for(int i=0; i < track->getLaps(); ++i)
   {
-    std::cout<<"Lap="<<i;
     updateDriversResults(i);
     updateCurrentConditions(i);
   }
@@ -37,13 +36,12 @@ void RaceSimulator::updateDriversResults(int lap)
      std::shared_ptr<model::ATires> carsTires = driver->getCar()->getTires();
      double score = driver->getExperience() + driver->getTeamExperience() +
                     conditions->getCurrentCondTirePaceFactor(carsTires) + carsTires->getTiresAgeFactor() + getMistakesFactor();
-     std::cout<<"score="<<score<<", overall score = "<<driver->getSessionScore()<<", tiresAge = "<<carsTires->getTiresAge()<<std::endl;
+     //std::cout<<driver->getName()<<"::score="<<score<<", overall score = "<<driver->getSessionScore()<<", tiresAge = "<<carsTires->getTiresAge()<<std::endl;
      driver->updateLapScore(score);
 
      if (driver->shouldRequestPitStop(conditions->getCurrentCondTirePaceFactor(carsTires)) 
          && (lap + utils::PIT_STOP_ON_MAX_LAP_AHEAD) < track->getLaps())
      {
-       //std::cout<<"In shouldRequestPitStop"<<std::endl;
        pitWall->preparePitStop(driver, conditions, lap); 
      }
      driver->checkPitThisLap(lap);
@@ -63,7 +61,6 @@ void RaceSimulator::updateCurrentConditions(int lap)
   if (shouldConditionsBeChanged(lap))
   {
     conditions->setCurrentConditons();
-    std::cout<<"ChangeConditions"<<std::endl;
   }
 }
 

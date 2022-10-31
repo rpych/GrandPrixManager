@@ -10,6 +10,7 @@ add_executable(grand_prix_manager
                data/TeamsData.cpp
                data/CarsData.cpp
                data/DriversData.cpp
+               data/TracksData.cpp
                data/ConditionsData.cpp
                model/Car.cpp
                model/Conditions.cpp
@@ -22,8 +23,10 @@ add_executable(grand_prix_manager
                model/Track.cpp
                simulator/GrandPrixSession.cpp
                simulator/GrandPrix.cpp
+               simulator/Season.cpp
                simulator/qualiSimulator/QualiSimulator.cpp
                simulator/raceSimulator/RaceSimulator.cpp
+               viewer/Viewer.cpp
                main.cpp)
 
 target_include_directories(grand_prix_manager
@@ -34,5 +37,5 @@ target_include_directories(grand_prix_manager
                            ${PROJECT_SOURCE_DIR}/simulator
                            ${PROJECT_SOURCE_DIR}/simulator/qualiSimulator
                            ${PROJECT_SOURCE_DIR}/simulator/raceSimulator
-                           ${PROJECT_SOURCE_DIR}/simulator/practiceSimulator)
+                           ${PROJECT_SOURCE_DIR}/viewer)
 

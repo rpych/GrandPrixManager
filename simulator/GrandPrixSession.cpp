@@ -3,6 +3,7 @@
 #include "../model/Driver.hpp"
 #include "../model/Conditions.hpp"
 #include "../model/PitWall.hpp"
+#include "../model/Tires.hpp"
 #include "../utils/Randomizer.hpp"
 #include "../utils/Constants.hpp"
 
@@ -11,8 +12,8 @@
 namespace gp::simulator
 {
 
-GrandPrixSession::GrandPrixSession(std::unique_ptr<model::ATrack> track, std::shared_ptr<model::AConditions> conditions):
-                  drivers(), track(std::move(track)), conditions(conditions), pitWall(std::make_shared<model::PitWall>())
+GrandPrixSession::GrandPrixSession(std::shared_ptr<model::ATrack> track, std::shared_ptr<model::AConditions> conditions):
+                  drivers(), track(track), conditions(conditions), pitWall(std::make_shared<model::PitWall>())
 {}
 
 double GrandPrixSession::getMistakesFactor()
@@ -48,9 +49,33 @@ void GrandPrixSession::prepareDriversForSession()
   });
 }
 
+void GrandPrixSession::addStrategyForCareerDriver(const std::string& driverName, std::queue<std::shared_ptr<model::APitStop>> pitStops)
+{
+  auto careerDriverIt = std::find_if(drivers.begin(), drivers.end(), [driverName=driverName](auto& driver)
+  {
+    return driver->getName() == driverName;
+  });
+
+  if (careerDriverIt != drivers.end())
+  {
+    //first pitStop is done immediately before race
+    if (not pitStops.empty())
+    {
+      std::shared_ptr<model::ATires> tires = pitStops.front()->getTires();
+      pitStops.pop();
+      (*careerDriverIt)->getCar()->setTires(tires);
+    }
+
+    while (not pitStops.empty())
+    {
+      (*careerDriverIt)->planPitStop(pitStops.front());
+      pitStops.pop();
+    }
+  }
+}
+
 std::vector<std::shared_ptr<model::ADriver>>& GrandPrixSession::getSessionResults()
 {
-  //std::cout<<"getSessionResults "<<std::endl;
   std::sort(drivers.begin(), drivers.end(), [](std::shared_ptr<model::ADriver> dr1, std::shared_ptr<model::ADriver> dr2)
   {
     return dr1->getSessionScore() > dr2->getSessionScore();

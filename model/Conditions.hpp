@@ -28,7 +28,7 @@ namespace gp::model
     virtual ~AConditions() {}
     virtual double getCurrentCondTirePaceFactor(std::shared_ptr<model::ATires> tires) = 0;
     virtual void setCurrentConditons() = 0;
-    virtual utils::TrackConditions getCurrentTrackConditions() = 0;
+    virtual utils::TrackConditions getCurrentTrackConditions() = 0; 
   };
 
   class Conditions: public AConditions

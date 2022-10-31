@@ -10,7 +10,7 @@ APitStop::APitStop(int lap, std::shared_ptr<ATires> tires): lap(lap), tires(tire
   pitPenalty = -(utils::Randomizer::random(10, 13));
 }
 
-//
+//-----------
 PitStop::PitStop(int lap, std::shared_ptr<ATires> tires): APitStop(lap, tires) 
 {}
 

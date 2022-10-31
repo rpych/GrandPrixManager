@@ -24,7 +24,6 @@ void QualiSimulator::simulate()
 
   for(int i=0; i < utils::NUM_OF_QUALI_LAPS; ++i)
   {
-    std::cout<<"Lap="<<i;
     updateDriversResults();
   }
 }
@@ -37,7 +36,7 @@ void QualiSimulator::updateDriversResults()
      std::shared_ptr<model::ATires> carsTires = driver->getCar()->getTires();
      double score = driver->getExperience() + driver->getTeamExperience() +
                     conditions->getCurrentCondTirePaceFactor(carsTires) + getMistakesFactor();
-     std::cout<<"quali score="<<score<<std::endl;
+     //std::cout<<driver->getName()<<" quali score="<<driver->getSessionScore()<<", with current score="<<score<<std::endl;
      driver->updateLapScore(score);
    });
 }

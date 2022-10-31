@@ -13,6 +13,8 @@ std::map<std::string, model::Car> CarsData::initCarsData()
   std::map<std::string, model::Car> carsTmp;
   carsTmp.emplace("Mercedes", model::Car("Mercedes", TeamsData::getTeamByName("Mercedes"), std::make_shared<model::Tires>()));
   carsTmp.emplace("Ferrari", model::Car("Ferrari", TeamsData::getTeamByName("Ferrari"), std::make_shared<model::Tires>()));
+  carsTmp.emplace("Red Bull", model::Car("Honda", TeamsData::getTeamByName("Red Bull"), std::make_shared<model::Tires>()));
+  carsTmp.emplace("Alpine", model::Car("Renault", TeamsData::getTeamByName("Alpine"), std::make_shared<model::Tires>()));
   return carsTmp;
 }
 

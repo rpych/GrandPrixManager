@@ -10,7 +10,9 @@ std::map<std::string, model::Team> TeamsData::initTeamsData()
 {
   std::map<std::string, model::Team> teamsTmp;
   teamsTmp.emplace("Ferrari", model::Team("Ferrari", 0.87));
-  teamsTmp.emplace("Mercedes", model::Team("Mercedes", 0.90));
+  teamsTmp.emplace("Mercedes", model::Team("Mercedes", 0.84));
+  teamsTmp.emplace("Red Bull", model::Team("Red Bull", 0.90));
+  teamsTmp.emplace("Alpine", model::Team("Alpine", 0.77));
   return teamsTmp;
 }
 

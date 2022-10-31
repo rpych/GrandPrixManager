@@ -14,7 +14,6 @@ namespace gp::model
 
 void PitWall::preparePitStop(std::shared_ptr<ADriver> driver, std::shared_ptr<AConditions> conditions, int currentLap)
 {
-  std::cout<<"PIT_STOP_ON_MAX_LAP_AHEAD="<<utils::PIT_STOP_ON_MAX_LAP_AHEAD<<std::endl;
   int pitStopLap = utils::Randomizer::random(currentLap + 1, currentLap + 1 + utils::PIT_STOP_ON_MAX_LAP_AHEAD);
   TireType newTiresType = chooseNewTires(conditions);
   std::shared_ptr<Tires> newTires = std::make_shared<Tires>(0, newTiresType);

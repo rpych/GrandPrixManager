@@ -16,7 +16,7 @@ protected:
   std::shared_ptr<ATires> tires;
 public:
   ACar(const std::string& engineProducer, std::shared_ptr<ATeam> team, std::shared_ptr<ATires> tires);
-  virtual ~ACar() {/*std::cout<<"ACar destructor"<<std::endl;*/};
+  virtual ~ACar() {};
   const std::string& getEngineProducer() const { return engineProducer; }
   std::shared_ptr<ATeam> getTeam() const { return team; }
   std::shared_ptr<ATires> getTires() const { return tires; }
@@ -31,7 +31,7 @@ public:
   Car(const std::string& engineProducer, std::shared_ptr<ATeam> team, std::shared_ptr<ATires> tires);
   Car(const std::shared_ptr<ACar> car);
   Car(const Car& car);
-  virtual ~Car() { /*std::cout<<"Car destructor"<<std::endl;*/};
+  virtual ~Car() {};
   virtual double getTiresAgeFactor() override;
   virtual void setTires(std::shared_ptr<ATires> newTires) override;
   virtual void updateTiresAge() override;

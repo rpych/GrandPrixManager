@@ -47,7 +47,6 @@ Conditions::Conditions(std::vector<utils::TrackConditions> conditions): AConditi
 double Conditions::getCurrentCondTirePaceFactor(std::shared_ptr<model::ATires> tires)
 {
   TireType tireType = tires->getTiresType();
-  //std::cout<<"Conditions = "<<static_cast<int>(currentConditions.at(conditionsNo))<<std::endl;
   return condTirePaceFactors[std::make_pair<>(currentConditions.at(conditionsNo), tireType)];
 }
 

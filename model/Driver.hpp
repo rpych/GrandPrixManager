@@ -23,6 +23,7 @@ public:
   std::shared_ptr<ACar> getCar() { return car; }
   double getTeamExperience();
   double getSessionScore();
+  int getNum() { return pitStops.size(); }
   void setStartingPositionWithScore(int position);
   virtual void updateLapScore(double score) = 0;
   virtual bool shouldRequestPitStop(double condAndTiresPaceFactor) = 0;
@@ -51,4 +52,4 @@ private:
   void pit();
 };
 
-} //gp::modelvirtual void checkPitThisLap(int currentLap)
+} //gp::model

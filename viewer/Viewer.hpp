@@ -20,6 +20,7 @@ class Viewer
   void runSingleGP();
   void showGPSessionResults();
   std::queue<std::shared_ptr<model::APitStop>> planStrategy();
+  void showCurrentSeasonClassification();
 public:
   Viewer();
   void run();

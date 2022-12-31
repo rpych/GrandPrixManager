@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <fstream>
 #include "GrandPrix.hpp"
 
 namespace gp::simulator
@@ -16,6 +17,10 @@ public:
   Season();
   ~Season();
   void readLastTrackName();
+  void readDriversClassification();
+  void writeLastTrackName();
+  void writeDriversClassification();
+  void updateDriversClassification();
   void setGP(std::unique_ptr<AGrandPrix> currentGrandPrix);
   void setPreviousGPTrackName(const std::string& trackName);
   const std::string& getCareerDriverName() { return careerDriverName; }

@@ -16,7 +16,7 @@ std::map<std::string, model::Track> TracksData::initTracksData()
 
 std::map<std::string, model::Track> TracksData::tracks{initTracksData()};
 
-std::shared_ptr<model::Track> TracksData::getTrack(const std::string& name)
+std::shared_ptr<model::ATrack> TracksData::getTrack(const std::string& name)
 {
   const auto& res = std::find_if(tracks.begin(), tracks.end(), [&name](const auto& track)
    {
@@ -30,7 +30,7 @@ std::shared_ptr<model::Track> TracksData::getTrack(const std::string& name)
   return std::shared_ptr<model::Track>(nullptr);
 }
 
-std::shared_ptr<model::Track> TracksData::getNextTrack(const std::string& name)
+std::shared_ptr<model::ATrack> TracksData::getNextTrack(const std::string& name)
 {
   if (name == "")
   {

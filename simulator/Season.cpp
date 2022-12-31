@@ -1,9 +1,9 @@
-#include <fstream>
 #include "GrandPrix.hpp"
 #include "Season.hpp"
 #include "../model/Track.hpp"
 #include "../data/TracksData.hpp"
 #include "../model/Conditions.hpp"
+#include "../data/ClassificationData.hpp"
 
 namespace gp::simulator
 {
@@ -11,6 +11,13 @@ namespace gp::simulator
 Season::Season(): grandPrix(std::make_unique<GrandPrix>())
 {
   readLastTrackName();
+  readDriversClassification();
+}
+
+Season::~Season()
+{
+  writeLastTrackName();
+  writeDriversClassification();
 }
 
 void Season::readLastTrackName()
@@ -25,7 +32,12 @@ void Season::readLastTrackName()
   lastTrackFile.close();
 }
 
-Season::~Season()
+void Season::readDriversClassification()
+{
+  data::ClassificationData::readCurrentClassification();
+}
+
+void Season::writeLastTrackName()
 {
   std::ofstream lastTrackFile ("../storage/lastGP.txt");
   if (lastTrackFile.is_open())
@@ -33,6 +45,16 @@ Season::~Season()
     lastTrackFile << previousGPTrackName;
   }
   lastTrackFile.close();
+}
+
+void Season::writeDriversClassification()
+{
+  data::ClassificationData::saveDriversResults();
+}
+
+void Season::updateDriversClassification()
+{
+  data::ClassificationData::updateDriversResults(getResults());
 }
 
 void Season::setGP(std::unique_ptr<AGrandPrix> currentGrandPrix)

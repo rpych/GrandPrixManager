@@ -40,13 +40,13 @@ std::shared_ptr<model::ADriver> DriversData::getDriver(const std::string& name)
 {
   const auto& res = std::find_if(drivers.begin(), drivers.end(), [&name](const auto& driver)
    {
-     if(driver.first == name) return true;
-     else return false;
+     return driver.first == name;
    });
   if(res != drivers.end())
   {
     return std::make_shared<model::Driver>(model::Driver((*res).second));
   }
+  return std::shared_ptr<model::Driver>(nullptr);
 }
 
 }

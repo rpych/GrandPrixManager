@@ -7,12 +7,10 @@
 
 int main()
 {
-  //auto grandPrix = std::make_shared<gp::simulator::GrandPrix>();
-  //grandPrix->prepare();
   gp::viewer::Viewer viewer;
   viewer.run();
 
-  std::cout<<"Hello from GrandPrixManager"<<std::endl;
+  std::cout<<"### Thank you for using GrandPrixManager! Bye :) ###"<<std::endl;
   return 0;  
 }
 

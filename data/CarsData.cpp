@@ -31,6 +31,7 @@ std::shared_ptr<model::ACar> CarsData::getCar(const std::string& teamName)
   {
     return std::make_shared<model::Car>(model::Car((*res).second));
   }
+  return std::shared_ptr<model::Car>(nullptr);
 }
 
 }

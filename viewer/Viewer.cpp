@@ -5,6 +5,7 @@
 #include "../model/Driver.hpp"
 #include "../data/ConditionsData.hpp"
 #include "../data/TracksData.hpp"
+#include "../data/ClassificationData.hpp"
 #include "../model/PitStop.hpp"
 #include "../model/Tires.hpp"
 #include "../utils/Constants.hpp"
@@ -35,28 +36,17 @@ void Viewer::showConditions(utils::TrackConditions conditions)
 
 TireType Viewer::transformInputToTireType(const std::string& tireType)
 {
-  utils::TireType tires = TireType::SOFT;
-  if (tireType == "s")
+  std::map<std::string, utils::TireType> tiresMapping {{"s", TireType::SOFT}, {"m", TireType::MEDIUM},
+                                                       {"h", TireType::HARD}, {"i", TireType::INTERMEDIATE},
+                                                       {"w", TireType::WET}};
+  try
   {
-    tires = TireType::SOFT;
+    return tiresMapping.at(tireType);
   }
-  else if (tireType == "m")
+  catch(std::out_of_range e)
   {
-    tires = TireType::MEDIUM;
+    return TireType::SOFT;
   }
-  else if (tireType == "h")
-  {
-    tires = TireType::HARD;
-  }
-  else if (tireType == "i")
-  {
-    tires = TireType::INTERMEDIATE;
-  }
-  else if (tireType == "w")
-  {
-    tires = TireType::WET;
-  }
-  return tires;
 }
 
 void Viewer::showLapsWhenConditionsWillChange(std::shared_ptr<model::ATrack> track)
@@ -71,6 +61,11 @@ void Viewer::setCareerDriver()
   std::cout<<"Enter driver name to choose career"<<std::endl;
   std::getline(std::cin, driverName);
   gpSeason->setCareerDriverName(driverName);
+}
+
+void Viewer::showCurrentSeasonClassification()
+{
+  data::ClassificationData::showCurrentSeasonClassification();
 }
 
 void Viewer::run()
@@ -88,7 +83,7 @@ void Viewer::runSingleGP()
 {
   std::shared_ptr<model::ATrack> currentTrack = gpSeason->chooseTrack();
  
-  std::cout<<"New Grand Prix starts"<<std::endl;
+  std::cout<<"### New Grand Prix starts ###"<<std::endl;
   std::cout<<"Current track is "<<currentTrack->getName()<<" with "<<currentTrack->getLaps()<<" laps"<<std::endl;
   std::unique_ptr<model::AConditions> qualiConditions = std::make_unique<model::Conditions>(data::ConditionsData::getConditions());
   std::cout<<"Qualification conditions: "<<std::endl;
@@ -110,7 +105,10 @@ void Viewer::runSingleGP()
   gpSeason->conductRace(currentTrack, std::move(raceConditions), pitStops);
   std::cout<<"-----RACE RESULTS-----"<<std::endl;
   showGPSessionResults();
+  gpSeason->updateDriversClassification();
   std::cout<<"Grand Prix finished"<<std::endl;
+  std::cout<<"Current championship classification:"<<std::endl;
+  showCurrentSeasonClassification();
 }
 
 void Viewer::showGPSessionResults()
@@ -127,8 +125,8 @@ void Viewer::showGPSessionResults()
 std::queue<std::shared_ptr<model::APitStop>> Viewer::planStrategy()
 {
   std::queue<std::shared_ptr<model::APitStop>> pitStops;
-  std::string lap = "";
-  std::string tireType = "";
+  std::string lap{};
+  std::string tireType{};
   while (true)
   {
     std::cout<<"To quit from strategy settings insert 'q'...";

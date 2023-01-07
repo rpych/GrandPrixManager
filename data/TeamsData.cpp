@@ -29,6 +29,7 @@ std::shared_ptr<model::ATeam> TeamsData::getTeamByName(const std::string& name)
   {
     return std::make_shared<model::Team>(model::Team((*res).second));
   }
+  return std::shared_ptr<model::Team>(nullptr);
 }
 
 }
